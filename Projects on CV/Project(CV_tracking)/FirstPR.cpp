@@ -3,52 +3,52 @@
 #include <opencv2/imgproc.hpp>
 #include <iostream>
 
-using namespace cv; //включение библиотеки CV чтобы пропустить длинную запись, пример: cv::VideoCapture camera() >> VideoCapture camera()
+using namespace cv; //РІРєР»СЋС‡РµРЅРёРµ Р±РёР±Р»РёРѕС‚РµРєРё CV С‡С‚РѕР±С‹ РїСЂРѕРїСѓСЃС‚РёС‚СЊ РґР»РёРЅРЅСѓСЋ Р·Р°РїРёСЃСЊ, РїСЂРёРјРµСЂ: cv::VideoCapture camera() >> VideoCapture camera()
 using namespace std;
 
-////////// Открытие пнг, и его увеличение ///////////
+////////// РћС‚РєСЂС‹С‚РёРµ РїРЅРі, Рё РµРіРѕ СѓРІРµР»РёС‡РµРЅРёРµ ///////////
 /*int main()
 {
-	string MediaFolder = "C:/Users/serzh/source/repos/Project(CV_tracking)/media/test.png";
+	string MediaFolder = "C:/Users/serzh/source/repos/Project(CV_tracking)/media/1.png";
 	Mat img = imread(MediaFolder);
-	Mat img2 = img;
-	cv::resize(img, img2, Size(img2.cols * 2, img2.rows * 2), 0, 0, INTER_NEAREST);
-	imshow("Фигуры", img2);
+	Mat img1 = img;
+	cv::resize(img, img1, Size(1920, 1080));
+	imshow("Р¤РёРіСѓСЂС‹", img2);
 
 	waitKey(0);
 
 	return(0);
 }*/
 
-/////////////////захват камеры с эффектом контуров/////////////////////
+/////////////////Р·Р°С…РІР°С‚ РєР°РјРµСЂС‹ СЃ СЌС„С„РµРєС‚РѕРј РєРѕРЅС‚СѓСЂРѕРІ/////////////////////
 
 int main()
 {
-	VideoCapture camera(0); //захват вэб камеры
-	Mat  frame3, frame1, frame2; //3 заготовки окон
+	VideoCapture camera(0); //Р·Р°С…РІР°С‚ РІСЌР± РєР°РјРµСЂС‹
+	Mat  frame3, frame1, frame2; //3 Р·Р°РіРѕС‚РѕРІРєРё РѕРєРѕРЅ
 
-	int h = (frame1, cv::CAP_PROP_FRAME_HEIGHT); //получение данных о высоте 
-	int w = (frame1, cv::CAP_PROP_FRAME_WIDTH); // получение данных о ширине
+	int h = (frame1, cv::CAP_PROP_FRAME_HEIGHT); //РїРѕР»СѓС‡РµРЅРёРµ РґР°РЅРЅС‹С… Рѕ РІС‹СЃРѕС‚Рµ 
+	int w = (frame1, cv::CAP_PROP_FRAME_WIDTH); // РїРѕР»СѓС‡РµРЅРёРµ РґР°РЅРЅС‹С… Рѕ С€РёСЂРёРЅРµ
 
-	camera.read(frame1); // получить один кадр из окна 1, чтобы потом увеличить его 
+	camera.read(frame1); // РїРѕР»СѓС‡РёС‚СЊ РѕРґРёРЅ РєР°РґСЂ РёР· РѕРєРЅР° 1, С‡С‚РѕР±С‹ РїРѕС‚РѕРј СѓРІРµР»РёС‡РёС‚СЊ РµРіРѕ 
 
-	cv::VideoWriter output("C:/Users/serzh/source/repos/Project(CV_tracking)/media/VideoSave.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 30, cv::Size(w, h)); //создание записи видео с помощью видеокодера
+	cv::VideoWriter output("C:/Users/serzh/source/repos/Project(CV_tracking)/media/VideoSave.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 30, cv::Size(w, h)); //СЃРѕР·РґР°РЅРёРµ Р·Р°РїРёСЃРё РІРёРґРµРѕ СЃ РїРѕРјРѕС‰СЊСЋ РІРёРґРµРѕРєРѕРґРµСЂР°
 
 
-	while (true) //цикл для прогрузки кадров
+	while (true) //С†РёРєР» РґР»СЏ РїСЂРѕРіСЂСѓР·РєРё РєР°РґСЂРѕРІ
 	{
-		resize(frame1, frame2, Size(h/3, w/3)); //увеличение окна номер 1 и перенос с сохранением параметров в окно 2
-		camera.read(frame2); // читать кадры из окна 2
+		resize(frame1, frame2, Size(h/3, w/3)); //СѓРІРµР»РёС‡РµРЅРёРµ РѕРєРЅР° РЅРѕРјРµСЂ 1 Рё РїРµСЂРµРЅРѕСЃ СЃ СЃРѕС…СЂР°РЅРµРЅРёРµРј РїР°СЂР°РјРµС‚СЂРѕРІ РІ РѕРєРЅРѕ 2
+		camera.read(frame2); // С‡РёС‚Р°С‚СЊ РєР°РґСЂС‹ РёР· РѕРєРЅР° 2
 
-		Canny(frame2, frame3, 30, 30, 3); //функция для нахождения контуров - искать в окне 2 и передавать в окно 3
-		imshow("Camera",frame3); // показать кадры из окна 3 
+		Canny(frame2, frame3, 30, 30, 3); //С„СѓРЅРєС†РёСЏ РґР»СЏ РЅР°С…РѕР¶РґРµРЅРёСЏ РєРѕРЅС‚СѓСЂРѕРІ - РёСЃРєР°С‚СЊ РІ РѕРєРЅРµ 2 Рё РїРµСЂРµРґР°РІР°С‚СЊ РІ РѕРєРЅРѕ 3
+		imshow("Camera",frame3); // РїРѕРєР°Р·Р°С‚СЊ РєР°РґСЂС‹ РёР· РѕРєРЅР° 3 
 
-		output.write(frame3); // записывать кадры окна 3 
-		if (waitKey(25) >= 0) break; // если - нажатие клавиши, остановить цикл
+		output.write(frame3); // Р·Р°РїРёСЃС‹РІР°С‚СЊ РєР°РґСЂС‹ РѕРєРЅР° 3 
+		if (waitKey(25) >= 0) break; // РµСЃР»Рё - РЅР°Р¶Р°С‚РёРµ РєР»Р°РІРёС€Рё, РѕСЃС‚Р°РЅРѕРІРёС‚СЊ С†РёРєР»
 	}
 
-	output.release(); //завершить процесс записи
-	camera.release(); //завершить процесс видеозахвата
-	destroyAllWindows; //закрыть все окна
+	output.release(); //Р·Р°РІРµСЂС€РёС‚СЊ РїСЂРѕС†РµСЃСЃ Р·Р°РїРёСЃРё
+	camera.release(); //Р·Р°РІРµСЂС€РёС‚СЊ РїСЂРѕС†РµСЃСЃ РІРёРґРµРѕР·Р°С…РІР°С‚Р°
+	destroyAllWindows; //Р·Р°РєСЂС‹С‚СЊ РІСЃРµ РѕРєРЅР°
 
 }
